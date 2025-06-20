@@ -64,12 +64,12 @@ async function handleUpload() {
         const id = crypto.randomUUID()
 
         try {
-            const { result } = await sendVideoFromUrl(media.url, title)
+            const { result } = await sendVideoFromUrl(media.url)
             const reelRef = JSON.parse(fs.readFileSync('./reels_ref.json', 'utf-8') || '[]') || []
             reelRef.push({ id, url, title, duration, media, ...result, })
             fs.writeFileSync('./reels_ref.json', JSON.stringify(reelRef))
             t--
-            console.log(t, 'completed')
+            console.log(t, 'remaining...')
             await new Promise((resolve) => setTimeout(() => resolve(true), 3000))
         } catch (error) {
             console.error(error)
