@@ -22,9 +22,7 @@ let retryCount = 0;
 async function handleReelProcess() {
     try {
         const { video: { file_id }, id } = GetReel()
-        console.log(file_id, id)
         const { url } = await GetUrl(file_id)
-        console.log(url)
         const caption = 'please follow and support ❤️';
 
         // await DownloadVideo(url)

@@ -19,7 +19,6 @@ async function UploadToInstagram(videoUrl, caption) {
                 throw Error('error while uploading to instagram')
             }
             if (status !== 'FINISHED') {
-                console.log(status)
                 await new Promise(resolve => setTimeout(resolve, 5000));
             }
         }
@@ -27,7 +26,7 @@ async function UploadToInstagram(videoUrl, caption) {
         const publishRequest = new PostPublishMediaRequest(ACCESS_TOKEN, PAGE_ID, containerId);
         const media = await publishRequest.execute();
 
-        console.log(media.getData())
+        console.log('new reel uploaded', media.getData()?.id)
 
         console.log('Reel uploaded and published successfully!');
 
