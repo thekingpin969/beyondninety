@@ -58,7 +58,7 @@ async function sendVideoFromUrl(videoUrl, caption = '') {
 
 async function handleUpload() {
     const reels = JSON.parse(fs.readFileSync('./reels.json', 'utf-8')) || []
-
+    let t = reels.length
     for (const { result: { url, title, duration, medias: [media] } } of reels) {
         console.log(url, title, duration, media)
         const id = crypto.randomUUID()
@@ -66,12 +66,10 @@ async function handleUpload() {
         try {
             const { result } = await sendVideoFromUrl(media.url, title)
             const reelRef = JSON.parse(fs.readFileSync('./reels_ref.json', 'utf-8') || '[]') || []
-            reelRef.push({ url, title, duration, media, ...result, })
+            reelRef.push({ id, url, title, duration, media, ...result, })
             fs.writeFileSync('./reels_ref.json', JSON.stringify(reelRef))
-
-            const filteredArray = reels.filter(item => item.id != id)
-            fs.writeFileSync('./reels.json', JSON.stringify(filteredArray))
-            console.log(filteredArray.length)
+            t--
+            console.log(t, 'completed')
         } catch (error) {
             console.error(error)
             break
