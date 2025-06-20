@@ -65,12 +65,12 @@ async function handleUpload() {
 
         try {
             const { result } = await sendVideoFromUrl(media.url, title)
-            await new Promise((resolve) => setTimeout(() => resolve(true), 3000))
             const reelRef = JSON.parse(fs.readFileSync('./reels_ref.json', 'utf-8') || '[]') || []
             reelRef.push({ id, url, title, duration, media, ...result, })
             fs.writeFileSync('./reels_ref.json', JSON.stringify(reelRef))
             t--
             console.log(t, 'completed')
+            await new Promise((resolve) => setTimeout(() => resolve(true), 3000))
         } catch (error) {
             console.error(error)
             break
