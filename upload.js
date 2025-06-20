@@ -2,6 +2,7 @@ import axios from 'axios'
 import FormData from 'form-data';
 import { config } from "dotenv";
 import fs from 'fs'
+import crypto from 'crypto';
 
 config({ path: "./.env" })
 
@@ -64,7 +65,6 @@ async function handleUpload() {
 
         try {
             const { result } = await sendVideoFromUrl(media.url, title)
-            await new Promise((resolve) => setTimeout(() => { resolve(true) }, 2000))
             const reelRef = JSON.parse(fs.readFileSync('./reels_ref.json', 'utf-8') || '[]') || []
             reelRef.push({ url, title, duration, media, ...result, })
             fs.writeFileSync('./reels_ref.json', JSON.stringify(reelRef))
@@ -74,6 +74,7 @@ async function handleUpload() {
             console.log(filteredArray.length)
         } catch (error) {
             console.error(error)
+            break
             continue
         }
     }
